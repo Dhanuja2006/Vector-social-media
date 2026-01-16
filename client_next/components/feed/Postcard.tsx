@@ -8,7 +8,7 @@ export default function PostCard() {
   const [liked, setLiked] = useState(false);
 
   return (
-    <div className="border border-black/10 dark:border-white/10 bg-white dark:bg-black cursor-pointer hover:shadow-md dark:shadow-white/5 px-5 py-3 hover:bg-gray-50 rounded-2xl transition">
+    <div className="border border-black/10 dark:border-white/10 bg-white dark:bg-black cursor-pointer hover:shadow-md dark:hover:scale-[1.01] px-5 py-3 hover:bg-gray-50 rounded-2xl transition">
       <div className="flex items-center gap-2 mb-1">
         <div className="h-8 md:h-10 w-8 md:w-10 rounded-full bg-gray-300" />
         <span className="font-semibold">username</span>

@@ -7,7 +7,7 @@ import HomeSidebar from "@/components/layouts/HomeSidebar";
 
 export default function home() {
   return (
-    <div className=" dark:bg-linear-to-b dark:from-white/2 dark:via-white/5 dark:to-white/2">
+    <div>
       <Navbar/>
       <div className="flex">
         <Feed/>

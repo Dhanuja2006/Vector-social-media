@@ -14,18 +14,20 @@ import {
     Settings,
     LogOut,
 } from "lucide-react";
-import { Button } from "../ui/button";
 import Themetoggle from "@/app/theme-toggle";
+import CreateModal from "./CreateModal";
 
 interface SidebarItemProps {
     icon: ReactNode;
     label: string;
-    href: string;
-    active: boolean;
+    href?: string;
+    active?: boolean;
+    onClick?: () => void;
 }
 
 export default function Sidebar(): JSX.Element {
     const [open, setOpen] = useState<boolean>(false);
+    const [createOpen, setCreateOpen] = useState<boolean>(false);
     const pathname = usePathname();
 
     return (
@@ -46,25 +48,45 @@ export default function Sidebar(): JSX.Element {
                         <p className="text-[0.9rem] font-light opacity-50">Random user</p>
                     </div>
                 </div>
+
                 <div className="w-full flex items-center gap-2 md:pl-5 my-2">
                     <Themetoggle/>
                     <p className="mt-1">Theme</p>
                 </div>
+
                 <SidebarItem icon={<Home className="h-5 md:h-7"/>} label="Home" href="/main" active={pathname === "/main"} />
                 <SidebarItem icon={<Search className="h-5 md:h-7"/>} label="Explore" href="/main/explore" active={pathname === "/main/explore"} />
-                <SidebarItem icon={<Plus className="h-5 md:h-7"/>} label="Create" href="/main/post" active={pathname === "/main/post"} />
+
+                <SidebarItem icon={<Plus className="h-5 md:h-7"/>} label="Create" onClick={() => setCreateOpen(true)}/>
+
                 <SidebarItem icon={<Bell className="h-5 md:h-7"/>} label="Activity" href="/main/activity" active={pathname === "/main/activity"} />
                 <SidebarItem icon={<User className="h-5 md:h-7"/>} label="Profile" href="/main/profile" active={pathname === "/main/profile"} />
                 <SidebarItem icon={<Settings className="h-5 md:h-7"/>} label="Settings" href="/main/settings" active={pathname === "/main/settings"} />
-                <p className="flex mr-auto pl-2 md:pl-7 gap-2 mt-auto transition-all duration-300 hover:bg-gray-200 dark:hover:bg-white/10 w-full h-10 rounded-lg items-center cursor-pointer dark:hover:text-white/70"><LogOut className="opacity-60"/>Log out</p>
+
+                <p className="flex mr-auto pl-2 md:pl-7 gap-2 mt-auto transition-all duration-300 hover:bg-gray-200 dark:hover:bg-white/10 w-full h-10 rounded-lg items-center cursor-pointer dark:hover:text-white/70">
+                    <LogOut className="opacity-60"/>Log out
+                </p>
             </aside>
+
+            {createOpen && <CreateModal onClose={() => setCreateOpen(false)} />}
         </>
     );
 }
 
-function SidebarItem({ icon, label, href, active }: SidebarItemProps): JSX.Element {
+function SidebarItem({ icon, label, href, active, onClick }: SidebarItemProps): JSX.Element {
+    if (onClick) {
+        return (
+            <button onClick={onClick} className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 hover:bg-blue-400/20 dark:hover:bg-blue-400/20`}>
+                <span className="h-4 md:h-6 text-black/50 dark:text-white/50">
+                    {icon}
+                </span>
+                {label}
+            </button>
+        );
+    }
+
     return (
-        <Link href={href} className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 ${active ? "bg-blue-400 dark:bg-blue-500 text-white" : "hover:text-gray-600 hover:bg-blue-400/20 dark:hover:bg-blue-400/20 dark:hover:text-white/70"}`}>
+        <Link href={href!} className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 ${active ? "bg-blue-500 text-white" : "hover:text-gray-600 hover:bg-blue-400/20 dark:hover:bg-blue-400/20 dark:hover:text-white/70"}`}>
             <span className={`h-4 md:h-6 ${active ? "text-white" : "text-black/50 dark:text-white/50"}`}>
                 {icon}
             </span>

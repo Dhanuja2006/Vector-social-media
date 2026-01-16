@@ -44,23 +44,23 @@ export default function PfpForm() {
                 )}
 
                 <div className="absolute flex items-center justify-center h-14 w-14 border bg-white shadow-xl rounded-full bottom-0 right-0">
-                    <Camera className="h-7.5 w-7.5 opacity-50"/>
+                    <Camera className="h-7.5 w-7.5 opacity-50 dark:text-black"/>
                 </div>
             </div>
 
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange}/>
 
-            <Button className="mt-10 w-50 h-10 cursor-pointer rounded-full bg-blue-500 hover:bg-blue-600" onClick={() => fileRef.current?.click()}>
+            <Button className="mt-10 w-50 h-10 cursor-pointer rounded-full" onClick={() => fileRef.current?.click()}>
                 Upload picture
             </Button>
 
             <div className="w-full mt-5">
                 <p className="text-[1.2rem] font-semibold text-left">Set a username</p>
-                <div className="my-3 border border-black/10 flex items-center px-3 h-10 rounded-lg gap-2">
+                <div className="my-3 border border-black/10 dark:border-white/10 flex items-center px-3 h-10 rounded-lg gap-2">
                     <p>@</p>
                     <input type="text" placeholder="demouser09" className="h-full w-full outline-none"/>
                 </div>
-                <Button className="h-10 mt-2 w-full cursor-pointer">
+                <Button className="h-10 mt-2 w-full cursor-pointer bg-blue-500 hover:bg-blue-600">
                     Continue
                 </Button>
             </div>

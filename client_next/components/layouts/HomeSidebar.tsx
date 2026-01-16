@@ -36,55 +36,19 @@ export default function HomeSidebar() {
                     </Button>
                 </div>
 
-                <div className="box flex items-center gap-2">
-                    <div className="h-12 w-12 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden">
-                        <img src="/Mark.png" alt="" className="h-full w-full object-cover" />
-                    </div>
-                    <div className="flex flex-col w-35">
-                        <p className="text-[0.9rem]">Mark Zuck</p>
-                        <p className="opacity-50 text-[0.8rem]">CEO and Founder, Facebook</p>
-                    </div>
-                    <Button className="h-8 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white">
-                        Follow
-                    </Button>
-                </div>
+                <Button className="bg-blue-500 hover:bg-blue-600 cursor-pointer text-white">See more</Button>
             </div>
 
-            <div className="flex flex-col mt-5">
+            <div className="flex flex-col mt-3">
                 <p className="flex gap-2 items-center font-semibold"><TrendingUp className="text-blue-500" /> Top posts this week</p>
-                <div className="h-20 border mt-3 rounded-lg bg-black/5 dark:bg-white/5 dark:shadow-white dark:hover:shadow-xs cursor-pointer transition-all duration-300 hover:shadow-sm">
-
+                <div className="h-30 border mt-3 rounded-lg bg-black/5 dark:bg-white/5 dark:shadow-white dark:hover:shadow-xs cursor-pointer transition-all duration-300 hover:shadow-sm overflow-clip">
+                    <img src="/computer.jpg" alt="" className="h-full w-full object-cover"/>
                 </div>
-                <div className="h-32 border my-3 rounded-lg bg-black/5 dark:bg-white/5 dark:shadow-white dark:hover:shadow-xs cursor-pointer transition-all duration-300 hover:shadow-sm">
-
+                <div className="h-30 border my-3 rounded-lg bg-black/5 dark:bg-white/5 dark:shadow-white dark:hover:shadow-xs cursor-pointer transition-all duration-300 hover:shadow-sm overflow-clip">
+                    <img src="/cse.jpg" alt="" className="h-full w-full object-coverN"/>
                 </div>
                 <Button className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white">See more</Button>
             </div>
         </div>
     );
 }
-
-
-
-
-/*
-<p className="text-[1.1rem] mb-8 flex items-center gap-1"> <UserPlus className="h-5 text-blue-500"/> People you can follow</p>
-                <div className="flex flex-col gap-4 text-gray-500">
-                    <div className="flex items-center justify-between text-[0.95rem]">
-                        <p>Ramu Kumar</p>
-                        <Button className="h-7 rounded-full bg-blue-500 cursor-pointer hover:bg-blue-600 dark:text-white">Follow</Button>
-                    </div>
-                    <div className="flex items-center justify-between text-[0.95rem]">
-                        <p>Shyaam Kendrik</p>
-                        <Button className="h-7 rounded-full bg-blue-500 cursor-pointer hover:bg-blue-600 dark:text-white">Follow</Button>
-                    </div>
-                    <div className="flex items-center justify-between text-[0.95rem]">
-                        <p>Justin Dukes</p>
-                        <Button className="h-7 rounded-full bg-blue-500 cursor-pointer hover:bg-blue-600 dark:text-white">Follow</Button>
-                    </div>
-                    <div className="flex items-center justify-between text-[0.95rem]">
-                        <p>Pajeet henderson</p>
-                        <Button className="h-7 rounded-full bg-blue-500 cursor-pointer hover:bg-blue-600 dark:text-white">Follow</Button>
-                    </div>
-                </div>
-*/
