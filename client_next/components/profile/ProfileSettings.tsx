@@ -143,7 +143,7 @@ export default function ProfileSettings() {
           Change photo
         </button>
 
-        <button type="button" disabled={!selectedFile || uploadingAvatar} onClick={handleAvatarUpload} className={`px-4 py-1.5 rounded-md text-white transition ${!selectedFile || uploadingAvatar ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 cursor-pointer"}`}>
+        <button type="button" disabled={!selectedFile || uploadingAvatar} onClick={handleAvatarUpload} className={`px-4 py-1.5 rounded-md text-white transition ${!selectedFile || uploadingAvatar ? "hidden" : "bg-blue-500 hover:bg-blue-600 cursor-pointer"}`}>
           {uploadingAvatar ? "Uploading..." : "Set as profile pic"}
         </button>
 
@@ -243,7 +243,7 @@ function EditableInput({
         value={value}
         disabled={!editable}
         onChange={onChange}
-        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 cursor-not-allowed"
+        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 dark:bg-white/5 cursor-not-allowed"
           }`}
       />
     </div>
@@ -274,7 +274,7 @@ function EditableTextarea({
         disabled={!editable}
         onChange={onChange}
         rows={3}
-        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 cursor-not-allowed"
+        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 dark:bg-white/5 cursor-not-allowed"
           }`}
       />
     </div>

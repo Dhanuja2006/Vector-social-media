@@ -5,6 +5,8 @@ import axios from "axios";
 import { Bookmark, Heart, MessageCircle, Repeat, HelpCircle, Hammer, Share2, MessagesSquare, MoreHorizontal, Trash2, Flag } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import PostDelete from "../modals/PostDelete";
+import ReportPost from "../modals/ReportPost";
 
 type PostCardProps = {
     post: any;
@@ -22,7 +24,8 @@ export default function PostCard({ post }: PostCardProps) {
 
     const { userData, posts, setPosts } = useAppContext();
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showReportModal, setShowReportModal] = useState(false);
     const isOwner = userData?.id === post.author._id;
 
     const [liked, setLiked] = useState(false);
@@ -68,6 +71,8 @@ export default function PostCard({ post }: PostCardProps) {
         }
     };
 
+    const handleReport = async () => {
+    }
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -125,17 +130,26 @@ export default function PostCard({ post }: PostCardProps) {
                                 Share post
                             </button>
                             {isOwner && (
-                                <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-red-500 transition-all duration-300 hover:bg-black/3 dark:hover:bg-white/5" onClick={handleDelete}>
+                                <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-black/3 dark:hover:bg-white/5"
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        setShowDeleteModal(true);
+                                    }}>
                                     <Trash2 size={14} />
                                     Delete post
                                 </button>
                             )}
                             {!isOwner && (
-                                <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-red-500 transition-all duration-300 hover:bg-black/3 dark:hover:bg-white/5" onClick={() => { setMenuOpen(false); }}>
+                                <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-black/3 dark:hover:bg-white/5"
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        setShowReportModal(true);
+                                    }}>
                                     <Flag size={14} />
                                     Report post
                                 </button>
                             )}
+
                         </div>
                     )}
                 </div>
@@ -162,6 +176,20 @@ export default function PostCard({ post }: PostCardProps) {
                     <p className="text-[0.85rem]">{timeAgo(post.createdAt)}</p>
                 </div>
             </div>
+            <PostDelete
+                open={showDeleteModal}
+                content={post.content}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={() => {
+                    handleDelete();
+                    setShowDeleteModal(false);
+                }} />
+            <ReportPost
+                open={showReportModal}
+                onClose={() => setShowReportModal(false)}
+                onSubmit={handleReport}
+            />
+
         </div>
     );
 }
