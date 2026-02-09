@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAppContext } from "@/context/AppContext";
 import UserRow from "./UserRow";
 
 type Props = {
@@ -9,21 +10,21 @@ type Props = {
     emptyText?: string;
 };
 
-export default function FollowingDisplay({ userId, emptyText }: Props) {
+export default function FollowersDisplay({ userId, emptyText }: Props) {
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
     useEffect(() => {
-        const fetchFollowing = async () => {
+        const fetchFollowers = async () => {
             try {
-                const { data } = await axios.get(`${BACKEND_URL}/api/users/${userId}/following`, { withCredentials: true });
+                const { data } = await axios.get(`${BACKEND_URL}/api/users/${userId}/followers`, { withCredentials: true });
                 setUsers(data);
             } finally {
                 setLoading(false);
             }
         };
-        fetchFollowing();
+        fetchFollowers();
     }, [userId]);
 
     if (loading) return <p className="text-center mt-6">Loading...</p>;

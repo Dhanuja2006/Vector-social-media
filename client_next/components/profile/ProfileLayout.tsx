@@ -1,10 +1,13 @@
 "use client";
 
 import { Edit } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import PostsDisplay from "./PostsDisplay";
 import FollowButton from "@/components/ui/FollowButton";
+import FollowersDisplay from "./FollowersDisplay";
+import FollowingDisplay from "./FollowingDisplay";
+import { useAppContext } from "@/context/AppContext";
 
 type ProfileLayoutProps = {
     user: any;
@@ -20,6 +23,9 @@ export default function ProfileLayout({ user, isSelf, isFollowing }: ProfileLayo
     const [followingCount, setFollowingCount] = useState(user.following?.length || 0);
     const [following, setFollowing] = useState(isFollowing ?? false);
 
+    const {userData} = useAppContext();
+    const isSelfProfile = userData?.id === user._id;
+
     return (
         <div className="px-7 py-5">
             <div className="flex items-start gap-6 mb-8">
@@ -31,7 +37,7 @@ export default function ProfileLayout({ user, isSelf, isFollowing }: ProfileLayo
                             {user.name} {user.surname}
                         </h1>
 
-                        {isSelf ? (
+                        {isSelfProfile ? (
                             <button onClick={() => router.push("/main/settings")} className="px-4 py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition flex items-center gap-1">
                                 <Edit className="h-4" />
                                 Edit profile
@@ -75,18 +81,23 @@ export default function ProfileLayout({ user, isSelf, isFollowing }: ProfileLayo
 
             <div className="mt-4">
                 {activeTab === "posts" && (
-                    <PostsDisplay userId={user._id} emptyText={isSelf ? "You haven't posted anything yet." : "This user hasn't posted yet."} />)}
+                    <PostsDisplay userId={user._id} emptyText={isSelf ? "You haven't posted anything yet." : "This user hasn't posted yet."} />
+                )}
+
                 {activeTab === "followers" && (
-                    <p className="text-gray-500 text-center mt-10">
-                        Followers coming soon
-                    </p>
+                    <FollowersDisplay
+                        userId={user._id}
+                        emptyText={isSelf ? "You have no followers yet." : "No followers yet."}
+                    />
                 )}
 
                 {activeTab === "following" && (
-                    <p className="text-gray-500 text-center mt-10">
-                        Following coming soon
-                    </p>
+                    <FollowingDisplay
+                        userId={user._id}
+                        emptyText={isSelf ? "You are not following anyone yet." : "Not following anyone."}
+                    />
                 )}
+
             </div>
         </div>
     );
