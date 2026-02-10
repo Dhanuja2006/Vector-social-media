@@ -14,20 +14,18 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ["http://localhost:3000", "http://vector-lac.vercel.app"],
+  origin: ["http://localhost:3000", "https://vector-lac.vercel.app"],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 app.use(passport.initialize());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") return res.sendStatus(200);
-  next();
-});
 
 app.get("/", (req, res) => {
   res.send("Server is up and running 🚀");
