@@ -76,10 +76,7 @@ export default function PostCard({ post }: PostCardProps) {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(
-                `${BACKEND_URL}/api/posts/${post._id}`,
-                { withCredentials: true }
-            );
+            await axios.delete(`${BACKEND_URL}/api/posts/${post._id}`, { withCredentials: true });
             setPosts(prevPosts =>
                 prevPosts.filter(p => p._id !== post._id)
             );
@@ -118,7 +115,7 @@ export default function PostCard({ post }: PostCardProps) {
                         <img src={post.author.avatar || "/default-avatar.png"} className="h-full w-full rounded-full object-cover" />
                     </div>
                     <span className="font-semibold ml-1 transition-all duration-200 hover:text-blue-600" onClick={openUserProfile}>{post.author.name}</span>
-                    <span className="text-[0.9rem] text-gray-500 hidden md:flex transition-all duration-200 hover:text-gray-700" onClick={openUserProfile}>
+                    <span className="text-[0.9rem] text-gray-500 transition-all duration-200 hover:text-gray-700" onClick={openUserProfile}>
                         @{post.author.username}
                     </span>
                     <p className="absolute left-195 text-[0.9rem] font-semibold text-blue-500 flex items-center gap-1.5">
@@ -175,13 +172,13 @@ export default function PostCard({ post }: PostCardProps) {
             <div className="flex justify-between text-gray-500">
                 <div className="flex items-center justify-between w-2/3">
                     <p className="flex gap-1 items-center">
-                        <MessageCircle size={20} className="hover:text-blue-500" />0
+                        <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />0
                     </p>
                     <p className="flex gap-1 items-center">
-                        <Repeat size={20} className="hover:text-blue-500" />0
+                        <Repeat className="h-4.5 md:h-5 hover:text-blue-500" />0
                     </p>
                     <p className="flex gap-1 items-center" onClick={handleLike}>
-                        <Heart size={20} className={`cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"}/>
+                        <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"}/>
                         {post.likes.length}
                     </p>
                 </div>

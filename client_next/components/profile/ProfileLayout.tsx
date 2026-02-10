@@ -45,7 +45,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
                 Edit profile
               </button>
             ) : (
-              <div className="mx-auto md:mx-0">
+              <div>
                 <FollowButton
                   userId={user._id}
                   isFollowing={following}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import PostCard from "../feed/Postcard";
+import PostCard from "../feed/PostCard";
 
 type PostsDisplayProps = {
     userId: string;

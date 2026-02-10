@@ -131,11 +131,11 @@ export default function ProfileSettings() {
   };
 
   return (
-    <div className="h-screen px-20 py-5 overflow-y-auto">
-      <h1 className="text-2xl font-semibold mb-6">Edit Profile</h1>
+    <div className="h-screen px-5 md:px-20 py-5 pt-14 md:pt-5 overflow-y-auto">
+      <h1 className="text-xl md:text-2xl font-semibold mb-6">Edit Profile</h1>
 
       <div className="flex items-center gap-6 mb-6">
-        <div className="h-24 w-24 rounded-full overflow-hidden border">
+        <div className="h-22 md:h-24 w-22 md:w-24 rounded-full overflow-hidden border">
           <img src={preview || avatar || "/avatar-placeholder.png"} className="h-full w-full object-cover" />
         </div>
 

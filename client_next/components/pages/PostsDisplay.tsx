@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppContext } from "@/context/AppContext";
-import PostCard from "../feed/Postcard";
+import PostCard from "../feed/PostCard";
 
 export default function PostsDislpay() {
 
