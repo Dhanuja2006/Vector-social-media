@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import PostDelete from "../modals/PostDelete";
 import ReportPost from "../modals/ReportPost";
 import { useRouter } from "next/navigation";
+import CommentsSection from "./CommentsSection";
 
 type PostCardProps = {
     post: any;
@@ -33,6 +34,7 @@ export default function PostCard({ post }: PostCardProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const [likeAnimating, setLikeAnimating] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     function timeAgo(dateString: string) {
         const now = new Date().getTime();
@@ -77,9 +79,7 @@ export default function PostCard({ post }: PostCardProps) {
     const handleDelete = async () => {
         try {
             await axios.delete(`${BACKEND_URL}/api/posts/${post._id}`, { withCredentials: true });
-            setPosts(prevPosts =>
-                prevPosts.filter(p => p._id !== post._id)
-            );
+            setPosts(prevPosts => prevPosts.filter(p => p._id !== post._id));
             setMenuOpen(false);
             toast.success("Post deleted");
         } catch (err) {
@@ -111,7 +111,7 @@ export default function PostCard({ post }: PostCardProps) {
 
             <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                    <div className="h-8 md:h-10 w-8 md:w-10 rounded-full transition-all duration-200" onClick={openUserProfile}>
+                    <div className="h-8 md:h-12 w-8 md:w-12 rounded-full transition-all duration-200" onClick={openUserProfile}>
                         <img src={post.author.avatar || "/default-avatar.png"} className="h-full w-full rounded-full object-cover" />
                     </div>
                     <span className="font-semibold ml-1 transition-all duration-200 hover:text-blue-600" onClick={openUserProfile}>{post.author.name}</span>
@@ -165,20 +165,22 @@ export default function PostCard({ post }: PostCardProps) {
                 </div>
             </div>
 
-            <p className="mt-2 mb-5 text-[0.9rem] md:text-[1rem]">
+            <p className="mt-2 mb-5 p-1 text-[0.9rem] md:text-[1.1rem]">
                 {post.content}
             </p>
 
             <div className="flex justify-between text-gray-500">
                 <div className="flex items-center justify-between w-2/3">
-                    <p className="flex gap-1 items-center">
-                        <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />0
+                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500" onClick={() => setShowComments(prev => !prev)}>
+                        <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />
+                        {post.commentsCount || 0}
                     </p>
+
                     <p className="flex gap-1 items-center">
                         <Repeat className="h-4.5 md:h-5 hover:text-blue-500" />0
                     </p>
                     <p className="flex gap-1 items-center" onClick={handleLike}>
-                        <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"}/>
+                        <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"} />
                         {post.likes.length}
                     </p>
                 </div>
@@ -199,7 +201,9 @@ export default function PostCard({ post }: PostCardProps) {
                 onClose={() => setShowReportModal(false)}
                 onSubmit={handleReport}
             />
-
+            {showComments && (
+                <CommentsSection postId={post._id} />
+            )}
         </div>
     );
 }
