@@ -82,7 +82,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
                 {comments.length == 0 && <p className="text-[0.9rem text-gray-500 py-3">No comments yet!</p>}
                 {comments.map((c) => (
                     <div key={c._id} className="flex gap-2">
-                        <img src={c.author?.avatar || "/default-avatar.png"} className="h-7 md:h-9 w-7 md:w-9 rounded-full" />
+                        <img src={c.author?.avatar || "/default-avatar.png"} className="h-7 md:h-9 w-7 md:w-9 object-cover rounded-full" />
                         <div className="md:flex gap-3 w-full">
                             <div className="flex justify-between">
                                 <p className="text-[0.9rem] font-semibold" onClick={() => router.push(`/main/user/${comments[c].author.username}`)}>
