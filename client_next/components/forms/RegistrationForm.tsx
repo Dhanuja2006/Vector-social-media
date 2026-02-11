@@ -19,6 +19,7 @@ export default function RegistrationForm() {
     const [phoneNumber, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const { refreshAuth } = useAppContext();
 
     const [loading, setLoading] = useState(false);
 
@@ -41,6 +42,7 @@ export default function RegistrationForm() {
             setLoading(true)
             const { data } = await axios.post(BACKEND_URL + '/api/auth/register', { name, surname, email, phoneNumber, password }, { withCredentials: true })
             if (data.success) {
+                await refreshAuth();
                 toast.success("Account created successfully!")
                 router.replace('/auth/profile')
             } else {
