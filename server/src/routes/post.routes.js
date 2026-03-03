@@ -6,10 +6,10 @@ const postRouter = express.Router();
 
 postRouter.post("/", authMiddleware, createPost);
 postRouter.get("/", getPosts);
+postRouter.get("/top-week", getTopPostsOfWeek);
 postRouter.delete("/:id", authMiddleware, deletePost);
 postRouter.get("/:postId", getSinglePost);
 postRouter.put("/:id/like", authMiddleware, toggleLike);
 postRouter.get("/user/:userId", getPostsByUser);
-postRouter.get("/top-week", getTopPostsOfWeek);
 
 export default postRouter;

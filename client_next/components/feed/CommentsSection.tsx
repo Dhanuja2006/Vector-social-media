@@ -102,7 +102,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
                             <img src={c.author?.avatar || "/default-avatar.png"} className="h-7 md:h-9 w-7 md:w-9 object-cover rounded-full" />
                             <div className="md:flex items-center gap-3 w-full">
                                 <div className="flex justify-between items-center">
-                                    <p className="text-[0.9rem] font-semibold" onClick={() => router.push(`/main/user/${c.author?.username}`)}>
+                                    <p className="text-[0.9rem] font-semibold transition-all duration-200 hover:text-blue-600 cursor-pointer" onClick={() => router.push(`/main/user/${c.author?.username}`)}>
                                         {c.author?.name}
                                     </p>
                                     <div className="flex items-center gap-2">

@@ -29,7 +29,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
   const [following, setFollowing] = useState(isFollowing ?? false);
 
   return (
-    <div className="px-7 py-5">
+    <div className="px-7 py-5 h-screen overflow-y-auto">
       <div className="flex flex-col md:flex-row items-start gap-6 mb-5 md:mb-7">
         <img src={user.avatar || "/default-avatar.png"} className="h-28 w-28 rounded-full object-cover border mx-auto md:mx-0"/>
 

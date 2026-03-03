@@ -32,7 +32,7 @@ export default function Explore() {
     const fetchTopPosts = async () => {
       try {
         const { data } = await axios.get(`${BACKEND_URL}/api/posts/top-week`, {withCredentials: true});
-        setTopPosts(data);
+        setTopPosts(data.posts);
       } catch (error: any) {
         toast.error(error.message)
       } finally {

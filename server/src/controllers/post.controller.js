@@ -111,20 +111,33 @@ export const getPostsByUser = async (req, res) => {
 };
 
 export const getSinglePost = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.postId)
-      .populate("author", "username name avatar");
+    try {
+        const post = await Post.findById(req.params.postId)
+            .populate("author", "username name avatar");
 
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        res.json(post);
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
     }
-
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
 };
 
 export const getTopPostsOfWeek = async (req, res) => {
-  res.json({ ok: true })
+    try {
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        const posts = await Post.find({createdAt: { $gte: oneWeekAgo }}).populate("author", "username name surname avatar").sort({ likes: -1 }).limit(10);
+        res.status(200).json({
+            success: true,
+            posts
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
 };
