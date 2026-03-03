@@ -39,7 +39,7 @@ export default function PostsDisplay({ userId, emptyText }: PostsDisplayProps) {
     }
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
             {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
             ))}

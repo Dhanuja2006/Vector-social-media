@@ -8,10 +8,10 @@ export default function Activity() {
   return (
     <div className="flex h-screen">
       <div className="w-full py-5 px-7 flex flex-col">
-        <p className="text-[1.4rem] font-semibold text-center md:text-left">
+        <p className="text-[1.4rem] font-semibold text-center md:text-left text-white">
           Notifications Panel
         </p>
-        <div className="flex items-center px-2 gap-2 mt-5 border bg-black/3 rounded-full h-10">
+        <div className="flex items-center px-2 gap-2 mt-5 bg-white/30 rounded-full h-10">
           <Search className="h-5" />
           <input type="text" placeholder="Search notifications" className="outline-0 w-full h-full bg-transparent"/>
         </div>

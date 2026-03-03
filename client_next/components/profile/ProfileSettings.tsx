@@ -134,7 +134,7 @@ export default function ProfileSettings() {
 
   return (
     <div className="h-screen px-5 md:px-20 py-5 pt-14 md:pt-5 overflow-y-auto">
-      <h1 className="text-xl md:text-2xl font-semibold mb-6">Edit Profile</h1>
+      <h1 className="text-xl md:text-2xl font-semibold mb-6 text-white">Edit Profile</h1>
 
       <div className="flex items-center gap-6 mb-6">
         <div className="h-22 md:h-24 w-22 md:w-24 rounded-full overflow-hidden border">
@@ -153,7 +153,7 @@ export default function ProfileSettings() {
       </div>
 
       {/* Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5 text-white">
         <EditableInput
           label="Username"
           name="username"
@@ -211,7 +211,7 @@ export default function ProfileSettings() {
 
       {/* Actions */}
       <div className="flex justify-end gap-4 mt-7">
-        <button className="w-40 py-2 border cursor-pointer rounded-lg">Cancel</button>
+        <button className="w-40 py-2 bg-blue-600 text-white cursor-pointer rounded-lg">Cancel</button>
         <button disabled={loading || !isFormChanged} onClick={handleSave} className={`w-40 py-2 text-white rounded-lg ${isFormChanged ? 'bg-blue-600 cursor-pointer' : 'cursor-not-allowed bg-blue-400'} ${loading ? 'cursor-not-allowed bg-blue-400' : ''}`}>
           {loading ? 'Saving..' : 'Save changes'}
         </button>
@@ -235,7 +235,7 @@ function EditableInput({
       <div className="flex justify-between mb-1">
         <label className="font-medium">{label}</label>
         {!editable && (
-          <button onClick={onEdit} className="text-blue-600 text-sm cursor-pointer">
+          <button onClick={onEdit} className="text-white text-shadow-lg text-sm cursor-pointer">
             Edit
           </button>
         )}
@@ -245,7 +245,7 @@ function EditableInput({
         value={value}
         disabled={!editable}
         onChange={onChange}
-        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 dark:bg-white/5 cursor-not-allowed"
+        className={`w-full px-3 py-2 rounded-lg text-white/80 ${editable ? "border-blue-500 outline-2 outline-white" : "bg-black/10 backdrop-blur-3xl dark:bg-white/5 cursor-not-allowed"
           }`}
       />
     </div>
@@ -276,7 +276,7 @@ function EditableTextarea({
         disabled={!editable}
         onChange={onChange}
         rows={3}
-        className={`w-full px-3 py-2 rounded-lg border ${editable ? "border-blue-500" : "bg-gray-100 dark:bg-white/5 cursor-not-allowed"
+        className={`w-full px-3 py-2 rounded-lg text-white/80 ${editable ? "border-blue-500 outline-2 outline-white" : "bg-black/10 backdrop-blur-3xl cursor-not-allowed"
           }`}
       />
     </div>

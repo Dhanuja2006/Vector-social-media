@@ -124,26 +124,28 @@ export default function NotificationPanel() {
     <div className="w-full mt-5">
 
       <div className="flex justify-between items-center mb-4">
-        <p className="font-semibold text-lg">Notifications</p>
+        <p className="font-semibold text-lg text-white">Notifications</p>
         <div className="flex gap-2">
           {selectMode && selected.length > 0 && (
-            <button onClick={deleteSelected} className="h-9 text-sm w-35 cursor-pointer bg-blue-500 text-white rounded-md">
+            <button onClick={deleteSelected} className="h-9 text-sm w-35 cursor-pointer bg-blue-600 text-white rounded-md">
               Delete Selected
             </button>
           )}
           {notifications.length > 0 && (
-            <button onClick={deleteAll} className="h-9 text-sm cursor-pointer w-25 py-1 border rounded-md">
+            <button onClick={deleteAll} className="h-9 text-sm cursor-pointer w-25 py-1 bg-blue-600 text-white rounded-md">
               Clear All
             </button>
           )}
-          <button
+          {notifications.length> 0 &&(
+            <button
             onClick={() => {
               setSelectMode(prev => !prev);
               setSelected([]);
             }}
-            className="h-9 text-sm cursor-pointer w-25 border rounded-md">
+            className="h-9 text-sm cursor-pointer w-25 rounded-md bg-blue-600 text-white">
             {selectMode ? "Cancel" : "Select"}
           </button>
+          )}
         </div>
       </div>
 
@@ -158,7 +160,7 @@ export default function NotificationPanel() {
       ) : (
         <div className="flex flex-col gap-2">
           {notifications.map(n => (
-            <div key={n._id} className={`flex items-center gap-3 p-4 rounded-xl transition ${!n.isRead ? "bg-blue-50 dark:bg-blue-900/20" : "bg-white dark:bg-black"}`}>
+            <div key={n._id} className={`flex items-center gap-3 p-4 rounded-xl transition ${!n.isRead ? "backdrop-blur-lg" : "backdrop-blur-3xl"}`}>
               {selectMode && (
                 <input type="checkbox" className="h-4 w-4 cursor-pointer" checked={selected.includes(n._id)}
                   onChange={() => {setSelected(prev => prev.includes(n._id) ? prev.filter(id => id !== n._id) : [...prev, n._id])}} />)}
@@ -172,10 +174,10 @@ export default function NotificationPanel() {
                     }
                   }
                 }}
-                className="flex gap-3 flex-1 cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 p-2 rounded-lg">
+                className="flex gap-3 flex-1 cursor-pointer p-2 rounded-lg">
                 <img src={n.sender.avatar || "/default-avatar.png"} className="h-10 w-10 rounded-full object-cover" />
                 <div className="text-sm">
-                  <p>
+                  <p className="text-white">
                     <span className="font-semibold">
                       {n.sender.name}
                     </span>{" "}
@@ -197,7 +199,7 @@ export default function NotificationPanel() {
                       e.stopPropagation();
                       deleteSingle(n._id);
                     }}
-                    className="text-gray-400 ml-auto">
+                    className="text-white ml-auto">
                     <Trash2 className="h-5 cursor-pointer" />
                   </button>
                 )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { createPortal } from "react-dom";
 
 type ReportPostProps = {
   open: boolean;
@@ -19,18 +20,21 @@ const REPORT_REASONS = [
   "Other",
 ];
 
-export default function ReportPost({ open, onClose, onSubmit}: ReportPostProps) {
+export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps) {
   const [reason, setReason] = useState("");
   const [note, setNote] = useState("");
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (open) {
-      setVisible(true);
-    }
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (open) setVisible(true);
   }, [open]);
 
-  if (!open) return null;
+  if (!mounted) return null;
 
   const closeModal = () => {
     setVisible(false);
@@ -41,19 +45,26 @@ export default function ReportPost({ open, onClose, onSubmit}: ReportPostProps) 
     }, 200);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!reason) return;
     onSubmit(reason, note);
-    toast.success("Post reported!")
+    toast.success("Post reported!");
     closeModal();
   };
 
-  return (
+  return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 transition-opacity duration-200 ${visible ? "opacity-100" : "opacity-0"}`}
-      onClick={closeModal}>
-      <div onClick={(e) => e.stopPropagation()}
-        className={`w-[90%] max-w-md rounded-xl bg-white dark:bg-black border p-5 shadow-lg transform transition-all duration-200 ${visible ? "scale-100 translate-y-0" : "scale-95 translate-y-2"}`}>
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
+        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+      onClick={closeModal}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`w-[90%] max-w-md rounded-xl bg-white dark:bg-black border p-5 shadow-lg transform transition-all duration-200 ${
+          visible ? "scale-100 translate-y-0" : "scale-95 translate-y-2"
+        }`}
+      >
         <h2 className="text-[1.2rem] font-semibold text-blue-600 mb-3">
           Report post
         </h2>
@@ -62,8 +73,11 @@ export default function ReportPost({ open, onClose, onSubmit}: ReportPostProps) 
           Tell us what's wrong with this post.
         </p>
 
-        <select value={reason} onChange={(e) => setReason(e.target.value)}
-          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent dark:bg-black">
+        <select
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent dark:bg-black"
+        >
           <option value="">Select a reason</option>
           {REPORT_REASONS.map((r) => (
             <option key={r} value={r}>
@@ -72,20 +86,36 @@ export default function ReportPost({ open, onClose, onSubmit}: ReportPostProps) 
           ))}
         </select>
 
-        <textarea placeholder="Additional details (optional)" value={note} onChange={(e) => setNote(e.target.value)} rows={3}
-          className="w-full rounded-md border px-3 py-2 mb-4 resize-none"/>
+        <textarea
+          placeholder="Additional details (optional)"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          rows={3}
+          className="w-full rounded-md border px-3 py-2 mb-4 resize-none"
+        />
 
         <div className="flex justify-end gap-3 w-full">
-          <button onClick={closeModal} className="w-1/2 py-1.5 rounded-md border text-sm hover:bg-black/5 dark:hover:bg-white/10">
+          <button
+            onClick={closeModal}
+            className="w-1/2 py-1.5 rounded-md border text-sm hover:bg-black/5 dark:hover:bg-white/10"
+          >
             Cancel
           </button>
 
-          <button disabled={!reason} onClick={handleSubmit}
-            className={`w-1/2 py-1.5 rounded-md cursor-pointer text-white ${reason ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-300 cursor-not-allowed"}`}>
+          <button
+            disabled={!reason}
+            onClick={handleSubmit}
+            className={`w-1/2 py-1.5 rounded-md cursor-pointer text-white ${
+              reason
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-blue-300 cursor-not-allowed"
+            }`}
+          >
             Submit report
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

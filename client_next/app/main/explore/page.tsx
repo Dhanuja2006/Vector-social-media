@@ -87,15 +87,15 @@ export default function Explore() {
   return (
     <div className="flex">
       <div className="w-full py-5 px-7">
-        <p className="text-[1.6rem] font-semibold text-center md:text-left">
+        <p className="text-[1.6rem] font-semibold text-center md:text-left text-white">
           Explore
         </p>
-        <p className="opacity-45 text-center md:text-left">
+        <p className="text-gray-300 text-center md:text-left">
           Discover people, posts and ideas
         </p>
 
         <div className="relative mt-5" ref={wrapperRef}>
-          <div className="flex items-center px-2 gap-2 border bg-black/5 rounded-full h-10">
+          <div className="flex items-center px-2 gap-2 bg-white/30 rounded-full h-10">
             <Search className="h-5" />
             <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent"/>
           </div>
@@ -136,7 +136,7 @@ export default function Explore() {
         </div>
 
         <div className="mt-5">
-          <p className="font-semibold">Trending domains</p>
+          <p className="font-semibold text-white">Trending domains</p>
           <div className="flex justify-between my-5">
             <div className="box h-35 w-[48%] border rounded-md overflow-clip relative cursor-pointer hover:shadow-md">
               <p className="absolute z-20 bottom-0 left-0 p-2 w-full flex items-center gap-2 bg-black/30 text-white">
@@ -157,15 +157,15 @@ export default function Explore() {
         </div>
 
         <div className="mt-5">
-          <p className="font-semibold">Top posts of the week</p>
+          <p className="font-semibold text-white">Top posts of the week</p>
 
           <div className="flex flex-col gap-5 md:flex-row items-center justify-between mt-5">
             {loading ? (
-              <p className="text-gray-500">
+              <p className="text-gray-300">
                 Loading top posts...
               </p>
             ) : topPosts.length === 0 ? (
-              <p className="text-gray-500">
+              <p className="text-gray-300">
                 No trending posts this week
               </p>
             ) : (

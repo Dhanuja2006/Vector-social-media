@@ -17,7 +17,7 @@ export default function ExploreSidebar() {
                 <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setOpen(false)}/>
             )}
 
-            <div className={`h-screen md:h-fit w-fit p-5 bg-white dark:bg-black fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
+            <div className={`h-screen md:min-h-screen text-white md:h-fit w-fit p-5 backdrop-blur-3xl fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
                 <button onClick={() => setOpen(false)} className="absolute top-4 right-4 lg:hidden" aria-label="Close">
                     <X />
                 </button>
@@ -45,22 +45,22 @@ export default function ExploreSidebar() {
                     <div className="box mt-5 flex">
                         <div className="h-12 w-12 bg-black/5 rounded-md mr-4 overflow-clip"><img src="/ai.webp" alt="" /></div>
                         <div className="w-40 text-[0.95rem]">Artificial Intelligence and Machine Learning</div>
-                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-gray-300 h-full mt-auto" fill="currentColor"/> 120</p>
+                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-blue-400 h-full mt-auto" fill="currentColor"/> 120</p>
                     </div>
                     <div className="box my-5 flex">
                         <div className="h-12 w-12 bg-black/5 rounded-md mr-4 overflow-clip"><img src="/political.avif" alt="" className="h-full w-full object-cover"/></div>
                         <div className="w-40 text-[0.95rem]">Political instability over the world</div>
-                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-gray-300 h-full mt-auto" fill="currentColor"/> 356</p>
+                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-blue-400 h-full mt-auto" fill="currentColor"/> 356</p>
                     </div>
                     <div className="box my-5 flex">
                         <div className="h-12 w-12 bg-black/5 rounded-md mr-4 overflow-clip"><img src="/computer.jpg" alt="" className="h-full w-full object-cover"/></div>
                         <div className="w-40 text-[0.95rem]">Rising prices of RAM over the world</div>
-                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-gray-300 h-full mt-auto" fill="currentColor"/> 142</p>
+                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-blue-400 h-full mt-auto" fill="currentColor"/> 142</p>
                     </div>
                     <div className="box mt-5 flex">
                         <div className="h-12 w-12 bg-black/5 rounded-md mr-4 overflow-clip"><img src="/kohli.jpg" alt="" className="h-full w-full object-cover"/></div>
                         <div className="w-40 text-[0.95rem]">Virat Kohli back at number 1 spot in ODIs</div>
-                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-gray-300 h-full mt-auto" fill="currentColor"/> 180</p>
+                        <p className="flex items-center gap-0.5 text-[0.8rem] ml-1"> <Heart className="text-blue-400 h-full mt-auto" fill="currentColor"/> 180</p>
                     </div>
                 </div>
                 <Button className="mt-5 w-full bg-blue-500 hover:bg-blue-600 text-white cursor-pointer">See more</Button>

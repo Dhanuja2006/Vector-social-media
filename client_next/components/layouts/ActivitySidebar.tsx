@@ -112,21 +112,21 @@ export default function ActivitySidebar() {
         <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setOpen(false)} />
       )}
 
-      <div ref={wrapperRef} className={`h-screen md:h-fit w-fit p-5 bg-white dark:bg-black fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
+      <div ref={wrapperRef} className={`h-screen md:min-h-screen md:h-fit w-fit p-5 backdrop-blur-xl fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
         <button onClick={() => setOpen(false)} className="absolute top-4 right-4 lg:hidden">
           <X />
         </button>
 
-        <p className="font-semibold ml-2 text-[1.1rem]">
+        <p className="font-semibold ml-2 text-[1.1rem] text-white">
           Search people you know
         </p>
 
-        <div className="flex gap-2 border h-10 rounded-full items-center px-3 bg-black/3 mt-7 mb-5">
+        <div className="flex gap-2 h-10 rounded-full items-center px-3 bg-white/30 mt-7 mb-5">
           <Search className="h-5" />
           <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent" />
         </div>
 
-        <p className="text-[1.1rem] font-semibold flex items-center gap-2">
+        <p className="text-[1.1rem] font-semibold flex items-center gap-2 text-white">
           <UserPlus className="h-5 text-blue-500" />
           Suggestions
         </p>

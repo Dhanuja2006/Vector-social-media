@@ -5,14 +5,14 @@ import axios from "axios";
 import { Bookmark, Heart, MessageCircle, Repeat, HelpCircle, Hammer, Share2, MessagesSquare, MoreHorizontal, Trash2, Flag } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import DeleteWarning from "../modals/DeleteWarning";
+import PostDelete from "../modals/DeleteWarning";
 import ReportPost from "../modals/ReportPost";
 import { useRouter } from "next/navigation";
 import CommentsSection from "./CommentsSection";
 
 type PostCardProps = {
     post: any;
-    setPost?: React.Dispatch<React.SetStateAction<any>>;
+    setPost?: React.Dispatch<React.SetStateAction<any>>; // ✅ added
 };
 
 const intentIconMap: Record<string, any> = {
@@ -31,10 +31,14 @@ export default function PostCard({ post, setPost }: PostCardProps) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
     const isOwner = userData?.id === post.author._id;
+
+    // ✅ safer ObjectId comparison
     const isLiked = post.likes?.map(String).includes(String(userData?.id));
+
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const [likeAnimating, setLikeAnimating] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     function timeAgo(dateString: string) {
         const now = new Date().getTime();
@@ -65,15 +69,19 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 setLikeAnimating(true);
                 setTimeout(() => setLikeAnimating(false), 300);
             }
+
             const updatedLikes = isLiked
                 ? post.likes.filter((id: string) => String(id) !== String(userData?.id))
                 : [...post.likes, userData?.id];
+
+            // ✅ If inside PostPage → update local state
             if (setPost) {
                 setPost((prev: any) => ({
                     ...prev,
                     likes: updatedLikes,
                 }));
-            }
+            } 
+            // ✅ If inside Feed → update context
             else {
                 setPosts(prev =>
                     prev.map(p =>
@@ -83,7 +91,9 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                     )
                 );
             }
+
             await axios.put(`${BACKEND_URL}/api/posts/${post._id}/like`, {}, { withCredentials: true });
+
         } catch {
             toast.error("Failed to like post");
         }
@@ -100,14 +110,15 @@ export default function PostCard({ post, setPost }: PostCardProps) {
         }
     };
 
-    const handleReport = async () => { }
+    const handleReport = async () => {}
 
     useEffect(() => {
-        if (!menuOpen) {
-            return;
-        }
+        if (!menuOpen) return;
         const handleOutsideClick = (e: MouseEvent) => {
-            if (menuRef.current &&!menuRef.current.contains(e.target as Node)) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(e.target as Node)
+            ) {
                 setMenuOpen(false);
             }
         };
@@ -118,15 +129,15 @@ export default function PostCard({ post, setPost }: PostCardProps) {
     }, [menuOpen]);
 
     return (
-        <div className="border overflow-clip relative border-black/10 dark:border-white/10 bg-white dark:bg-black cursor-pointer hover:bg-black/2 dark:hover:bg-white/1 px-5 py-3 rounded-2xl transition"
-            onClick={openPost}>
+        <div className="border overflow-clip relative border-black/10 dark:border-white/10 bg-black/5 backdrop-blur-3xl cursor-pointer hover:shadow-lg px-5 py-3 rounded-2xl transition"
+        onClick={openPost}>
             <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                    <div className="h-8 md:h-12 w-8 md:w-12 rounded-full transition-all duration-200" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>
+                    <div className="h-8 md:h-12 w-8 md:w-12 rounded-full transition-all duration-200" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>
                         <img src={post.author.avatar || "/default-avatar.png"} className="h-full w-full rounded-full object-cover" />
                     </div>
-                    <span className="font-semibold ml-1 transition-all duration-200 hover:text-blue-600" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>{post.author.name}</span>
-                    <span className="text-[0.9rem] text-gray-500 transition-all duration-200 hover:text-gray-700" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>
+                    <span className="font-semibold ml-1 transition-all duration-200 text-white hover:text-blue-600" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>{post.author.name}</span>
+                    <span className="text-[0.9rem] text-white/60 transition-all duration-200 hover:text-white/80" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>
                         @{post.author.username}
                     </span>
                     <p className="absolute left-195 text-[0.9rem] font-semibold text-blue-500 flex items-center gap-1.5">
@@ -141,7 +152,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
 
                 <div ref={menuRef} className="relative">
                     <button onClick={(e) => { e.stopPropagation(); setMenuOpen(prev => !prev); }} className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
-                        <MoreHorizontal size={20} className="text-gray-400 cursor-pointer mt-0.5" />
+                        <MoreHorizontal size={20} className="text-white cursor-pointer mt-0.5" />
                     </button>
 
                     {menuOpen && (
@@ -177,13 +188,13 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 </div>
             </div>
 
-            <p className="mt-2 mb-5 p-1 text-[0.9rem] md:text-[1.1rem]">
+            <p className="mt-2 mb-5 p-1 text-[0.9rem] md:text-[1.1rem] text-gray-100">
                 {post.content}
             </p>
 
-            <div className="flex justify-between text-gray-500">
+            <div className="flex justify-between text-white">
                 <div className="flex items-center justify-between w-2/3">
-                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500">
+                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500" onClick={() => setShowComments(prev => !prev)}>
                         <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />
                         {post.commentsCount || 0}
                     </p>
@@ -191,7 +202,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                     <p className="flex gap-1 items-center">
                         <Repeat className="h-4.5 md:h-5 hover:text-blue-500" />0
                     </p>
-                    <p className="flex gap-1 items-center" onClick={(e) => { e.stopPropagation(); handleLike() }}>
+                    <p className="flex gap-1 items-center" onClick={(e) => {e.stopPropagation(); handleLike()}}>
                         <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"} />
                         {post.likes.length}
                     </p>
@@ -201,7 +212,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 </div>
             </div>
 
-            <DeleteWarning
+            <PostDelete
                 open={showDeleteModal}
                 content={post.content}
                 onClose={() => setShowDeleteModal(false)}
@@ -215,6 +226,10 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 onClose={() => setShowReportModal(false)}
                 onSubmit={handleReport}
             />
+
+            {showComments && (
+                <CommentsSection postId={post._id} />
+            )}
         </div>
     );
 }

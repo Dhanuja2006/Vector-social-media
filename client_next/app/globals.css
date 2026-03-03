@@ -131,6 +131,18 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 .hide-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;

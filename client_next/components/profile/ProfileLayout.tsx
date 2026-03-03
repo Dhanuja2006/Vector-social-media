@@ -35,7 +35,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
 
         <div className="flex flex-col gap-2 w-full">
           <div className="w-full flex justify-between items-start gap-3 md:gap-0">
-            <h1 className="text-xl md:text-2xl font-bold md:text-left">
+            <h1 className="text-xl md:text-2xl font-bold md:text-left text-white">
               {user.name} {user.surname}
             </h1>
 
@@ -60,19 +60,19 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
             )}
           </div>
 
-          <p className="text-gray-500 text-left">
+          <p className="text-gray-300 text-left">
             @{user.username}
           </p>
 
-          <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 text-left">
+          <p className="mt-2 text-sm text-white/70 dark:text-gray-300 text-left">
             {user.bio}
           </p>
 
-          <p className="text-sm opacity-80 text-left">
+          <p className="text-sm opacity-80 text-left text-white/70">
             {user.description}
           </p>
 
-          <div className="flex gap-6 text-sm font-semibold mt-2 justify-center md:justify-start">
+          <div className="flex gap-6 text-sm font-semibold mt-2 justify-center md:justify-start text-white">
             <span>{followersCount} Followers</span>
             <span>{followingCount} Following</span>
           </div>
@@ -84,7 +84,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
           <button
             key={tab}
             onClick={() => setActiveTab(tab as any)}
-            className={`relative pb-2 font-semibold capitalize transition cursor-pointer whitespace-nowrap ${activeTab === tab ? "text-blue-500" : "text-gray-500 hover:text-black dark:hover:text-white"}`}>
+            className={`relative pb-2 font-semibold capitalize transition cursor-pointer whitespace-nowrap ${activeTab === tab ? "text-blue-500" : "text-white text-shadow-lg dark:hover:text-white"}`}>
             {tab}
             {activeTab === tab && (
               <span className="absolute left-0 right-0 -bottom-px h-0.5 bg-blue-500 rounded-full" />

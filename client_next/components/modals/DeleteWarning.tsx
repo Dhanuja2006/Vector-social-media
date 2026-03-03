@@ -1,16 +1,16 @@
 "use client";
 
 import { X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 
 type ConfirmModalProps = {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-
   title?: string;
   description?: string;
   confirmText?: string;
-
   content?: string;
 };
 
@@ -23,10 +23,18 @@ export default function ConfirmModal({
   confirmText = "Delete",
   content,
 }: ConfirmModalProps) {
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       onClick={onClose}
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
         open ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
@@ -70,6 +78,7 @@ export default function ConfirmModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

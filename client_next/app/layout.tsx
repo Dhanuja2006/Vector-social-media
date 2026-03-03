@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[url('/vector-home-bg.jpg')] bg-cover bg-center bg-no-repeat`}>
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
           <Providers>
             <ToastProvider />
