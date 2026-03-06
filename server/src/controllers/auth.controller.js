@@ -54,37 +54,50 @@ export const register = async (req, res) => {
 };
 
 export const profileSetup = async (req, res) => {
-    const { username, bio, description } = req.body;
-    if (!username) {
-        return res.json({
-            success: false,
-            message: "Please enter a username!"
-        })
-    }
-    if (!bio) {
-        return res.json({
-            success: false,
-            message: "Please enter a bio!"
-        })
-    }
-    if (!description) {
-        return res.json({
-            success: false,
-            message: "Please enter a description!"
-        })
-    }
     try {
-        const user = await User.findById(req.user.id)
-        if (!user) {
-            return res.json({
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({
                 success: false,
-                message: "User not found!"
-            })
+                message: "Unauthorized",
+            });
+        }
+        const { username, bio, description } = req.body;
+        if (!username) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a username!",
+            });
+        }
+        if (!bio) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a bio!",
+            });
+        }
+        if (!description) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a description!",
+            });
+        }
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found!",
+            });
         }
         if (user.isProfileComplete) {
-            return res.json({
+            return res.status(400).json({
                 success: false,
                 message: "Profile already completed!",
+            });
+        }
+        const existingUsername = await User.findOne({ username });
+        if (existingUsername) {
+            return res.status(409).json({
+                success: false,
+                message: "Username already taken!",
             });
         }
         user.username = username;
@@ -95,15 +108,15 @@ export const profileSetup = async (req, res) => {
         await user.save();
         return res.status(200).json({
             success: true,
-            message: "Profile completed successfully!"
-        })
+            message: "Profile completed successfully!",
+        });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: error.message
-        })
+            message: error.message,
+        });
     }
-}
+};
 
 export const getMe = (req, res) => {
     const user = req.user;
