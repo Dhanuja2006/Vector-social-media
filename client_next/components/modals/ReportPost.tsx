@@ -61,11 +61,11 @@ export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps)
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-[90%] max-w-md rounded-xl bg-white border p-5 shadow-lg transform transition-all duration-200 ${
+        className={`w-[90%] max-w-md rounded-xl bg-white dark:bg-blue-950 border p-5 shadow-lg transform transition-all duration-200 ${
           visible ? "scale-100 translate-y-0" : "scale-95 translate-y-2"
         }`}
       >
-        <h2 className="text-[1.2rem] font-semibold text-blue-600 mb-3">
+        <h2 className="text-[1.2rem] font-semibold text-blue-600 dark:text-white mb-3">
           Report post
         </h2>
 

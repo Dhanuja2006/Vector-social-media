@@ -52,7 +52,7 @@ export default function LoginForm() {
         <div className="border border-black/10 dark:border-white/10 backdrop-blur-3xl rounded-lg px-10 py-5 w-80 md:w-90">
             <p className="font-semibold text-[1rem] md:text-[1.2rem] text-white">Welcome back!</p>
             <p className="mt-2 mb-5 text-[0.9rem] md:text-[1.1rem] text-gray-300">Log in to get right back in!</p>
-            <button className="border bg-white w-full rounded-md h-10 flex items-center justify-center gap-2 my-3 cursor-pointer" onClick={() => { window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`; }}>
+            <button className="border bg-white dark:text-black w-full rounded-md h-10 flex items-center justify-center gap-2 my-3 cursor-pointer" onClick={() => { window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`; }}>
                 <img src="/Google.png" alt="" className="h-5" />
                 Continue with Google
             </button>

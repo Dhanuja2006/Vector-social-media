@@ -75,7 +75,7 @@ export default function RegistrationForm() {
       </p>
 
       <button
-        className="border bg-white w-full rounded-md h-10 flex items-center justify-center gap-2 my-3 cursor-pointer"
+        className="border bg-white dark:text-black w-full rounded-md h-10 flex items-center justify-center gap-2 my-3 cursor-pointer"
         onClick={() => {
           window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
         }}
