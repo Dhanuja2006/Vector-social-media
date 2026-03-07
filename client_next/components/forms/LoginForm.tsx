@@ -77,7 +77,7 @@ export default function LoginForm() {
                 <p className="text-[0.9rem] text-white">Forgot your password?</p>
                 <span className="text-blue-800 underline cursor-pointer">Click here</span>
             </div>
-            <Button disabled={loading} className={`w-full mt-5 cursor-pointer ${loading ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"}`} onClick={handleLogin}>
+            <Button disabled={loading} className={`w-full mt-5 cursor-pointer dark:text-white ${loading ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"}`} onClick={handleLogin}>
                 {loading ? "Logging in" : "Log in"}
             </Button>
             <div className="flex items-center justify-between mt-3">

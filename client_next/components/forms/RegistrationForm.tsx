@@ -84,7 +84,6 @@ export default function RegistrationForm() {
         Continue with Google
       </button>
 
-      {/* Clean Divider */}
       <div className="flex items-center gap-3 mt-5 mb-4">
         <div className="flex-1 h-px bg-white/20"></div>
         <span className="text-sm text-white/70">or</span>
@@ -169,7 +168,7 @@ export default function RegistrationForm() {
 
       <Button
         disabled={loading}
-        className={`w-full mt-5 cursor-pointer ${
+        className={`w-full mt-5 cursor-pointer dark:text-white ${
           loading ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"
         }`}
         onClick={handleRegister}

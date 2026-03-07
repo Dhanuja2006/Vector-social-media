@@ -2,7 +2,7 @@
 
 import { useAppContext } from "@/context/AppContext";
 import axios from "axios";
-import { Bookmark, Heart, MessageCircle, Repeat, HelpCircle, Hammer, Share2, MessagesSquare, MoreHorizontal, Trash2, Flag } from "lucide-react";
+import { Bookmark, Heart, MessageCircle, Repeat, HelpCircle, Hammer, Share2, MessagesSquare, MoreHorizontal, Trash2, Flag, Share, LucideShare2, Forward } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import PostDelete from "../modals/DeleteWarning";
@@ -31,10 +31,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
     const isOwner = userData?.id === post.author._id;
-
-    // ✅ safer ObjectId comparison
     const isLiked = post.likes?.map(String).includes(String(userData?.id));
-
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const [likeAnimating, setLikeAnimating] = useState(false);
@@ -74,14 +71,12 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 ? post.likes.filter((id: string) => String(id) !== String(userData?.id))
                 : [...post.likes, userData?.id];
 
-            // ✅ If inside PostPage → update local state
             if (setPost) {
                 setPost((prev: any) => ({
                     ...prev,
                     likes: updatedLikes,
                 }));
-            } 
-            // ✅ If inside Feed → update context
+            }
             else {
                 setPosts(prev =>
                     prev.map(p =>
@@ -110,7 +105,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
         }
     };
 
-    const handleReport = async () => {}
+    const handleReport = async () => { }
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -128,16 +123,36 @@ export default function PostCard({ post, setPost }: PostCardProps) {
         };
     }, [menuOpen]);
 
+    const handleShare = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const postUrl = `${window.location.origin}/main/post/${post._id}`;
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: "Check out this post",
+                    text: post.content.slice(0, 100),
+                    url: postUrl,
+                });
+            } else {
+                await navigator.clipboard.writeText(postUrl);
+                toast.success("Post link copied to clipboard");
+            }
+        } catch {
+            toast.error("Failed to share post");
+        }
+        setMenuOpen(false);
+    };
+
     return (
         <div className="border overflow-clip relative border-black/10 bg-black/10 backdrop-blur-3xl cursor-pointer hover:shadow-lg px-5 py-3 rounded-2xl transition"
-        onClick={openPost}>
+            onClick={openPost}>
             <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                    <div className="h-8 md:h-12 w-8 md:w-12 rounded-full transition-all duration-200" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>
+                    <div className="h-8 md:h-12 w-8 md:w-12 rounded-full transition-all duration-200" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>
                         <img src={post.author.avatar || "/default-avatar.png"} className="h-full w-full rounded-full object-cover" />
                     </div>
-                    <span className="font-semibold ml-1 transition-all duration-200 text-white hover:text-blue-500" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>{post.author.name}</span>
-                    <span className="text-[0.9rem] text-white/60 transition-all duration-200 hover:text-white/80" onClick={(e) => {e.stopPropagation(); openUserProfile();}}>
+                    <span className="font-semibold ml-1 transition-all duration-200 text-white hover:text-blue-500" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>{post.author.name}</span>
+                    <span className="text-[0.9rem] text-white/60 transition-all duration-200 hover:text-white/80" onClick={(e) => { e.stopPropagation(); openUserProfile(); }}>
                         @{post.author.username}
                     </span>
                     <p className="absolute left-195 text-[0.9rem] font-semibold text-blue-500 flex items-center gap-1.5">
@@ -157,7 +172,8 @@ export default function PostCard({ post, setPost }: PostCardProps) {
 
                     {menuOpen && (
                         <div className="absolute overflow-clip top-0 right-0 w-30 bg-white border border-black/10 rounded-md shadow-lg z-50">
-                            <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-blue-500 transition-all duration-300 hover:bg-black/3 dark:hover:bg-white/5" onClick={() => setMenuOpen(false)}>
+                            <button className="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-blue-500 transition-all duration-300 hover:bg-black/3 dark:hover:bg-white/5"
+                                onClick={handleShare}>
                                 <Share2 size={14} />
                                 Share post
                             </button>
@@ -200,9 +216,9 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                     </p>
 
                     <p className="flex gap-1 items-center">
-                        <Repeat className="h-4.5 md:h-5 hover:text-blue-500" />0
+                        <Forward onClick={handleShare} className="h-4.5 md:h-5 hover:text-blue-500" />0
                     </p>
-                    <p className="flex gap-1 items-center" onClick={(e) => {e.stopPropagation(); handleLike()}}>
+                    <p className="flex gap-1 items-center" onClick={(e) => { e.stopPropagation(); handleLike() }}>
                         <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"} />
                         {post.likes.length}
                     </p>
