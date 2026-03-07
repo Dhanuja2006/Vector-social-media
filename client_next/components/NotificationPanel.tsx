@@ -6,6 +6,7 @@ import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Trash, Trash2 } from "lucide-react";
+import ConfirmModal from "./modals/DeleteWarning";
 
 type Notification = {
   _id: string;
@@ -27,10 +28,9 @@ export default function NotificationPanel() {
   const { userData } = useAppContext();
   const router = useRouter();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
-
+  const [clearAllOpen, setClearAllOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
-
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -132,19 +132,20 @@ export default function NotificationPanel() {
             </button>
           )}
           {notifications.length > 0 && (
-            <button onClick={deleteAll} className="h-9 text-sm cursor-pointer w-[50%] md:w-25 py-1 bg-blue-600 text-white rounded-md">
+            <button onClick={() => setClearAllOpen(true)}
+              className="h-9 text-sm cursor-pointer w-[50%] md:w-25 py-1 bg-blue-600 text-white rounded-md">
               Clear All
             </button>
           )}
-          {notifications.length> 0 &&(
+          {notifications.length > 0 && (
             <button
-            onClick={() => {
-              setSelectMode(prev => !prev);
-              setSelected([]);
-            }}
-            className="h-9 text-sm cursor-pointer w-[50%] md:w-25 rounded-md bg-blue-600 text-white">
-            {selectMode ? "Cancel" : "Select"}
-          </button>
+              onClick={() => {
+                setSelectMode(prev => !prev);
+                setSelected([]);
+              }}
+              className="h-9 text-sm cursor-pointer w-[50%] md:w-25 rounded-md bg-blue-600 text-white">
+              {selectMode ? "Cancel" : "Select"}
+            </button>
           )}
         </div>
       </div>
@@ -163,7 +164,7 @@ export default function NotificationPanel() {
             <div key={n._id} className={`flex items-center gap-3 p-4 rounded-xl transition ${!n.isRead ? "backdrop-blur-lg" : "backdrop-blur-3xl"}`}>
               {selectMode && (
                 <input type="checkbox" className="h-4 w-4 cursor-pointer" checked={selected.includes(n._id)}
-                  onChange={() => {setSelected(prev => prev.includes(n._id) ? prev.filter(id => id !== n._id) : [...prev, n._id])}} />)}
+                  onChange={() => { setSelected(prev => prev.includes(n._id) ? prev.filter(id => id !== n._id) : [...prev, n._id]) }} />)}
               <div
                 onClick={() => {
                   if (!selectMode) {
@@ -210,6 +211,18 @@ export default function NotificationPanel() {
           ))}
         </div>
       )}
+
+      <ConfirmModal
+        open={clearAllOpen}
+        onClose={() => setClearAllOpen(false)}
+        onConfirm={() => {
+          deleteAll();
+          setClearAllOpen(false);
+        }}
+        title="Clear all notifications?"
+        description="This will permanently delete all your notifications."
+        confirmText="Clear All"
+      />
     </div>
   );
 }
