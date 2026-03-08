@@ -14,12 +14,15 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
 
   const resolvedParams = use(params);
   const conversationId = resolvedParams.conversationId;
+
   const { userData } = useAppContext();
   const [messages, setMessages] = useState<any[]>([]);
   const [text, setText] = useState("");
   const [receiverId, setReceiverId] = useState<string | null>(null);
   const [otherUser, setOtherUser] = useState<any>(null);
+
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
   const router = useRouter();
 
@@ -32,21 +35,33 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
 
   useEffect(() => {
     if (!userData?.id) return;
-    socket.emit("register", userData.id);
-    socket.on("receive_message", (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
 
-    return () => {
-      socket.off("receive_message");
+    socket.emit("register", userData.id);
+
+    const handleReceiveMessage = (message: any) => {
+      setMessages((prev) => {
+        if (prev.some((m) => m._id === message._id)) return prev;
+        if (message.conversation !== conversationId) return prev;
+        return [...prev, message];
+      });
     };
 
-  }, [userData]);
+    socket.on("receive_message", handleReceiveMessage);
+
+    return () => {
+      socket.off("receive_message", handleReceiveMessage);
+    };
+
+  }, [userData, conversationId]);
 
   useEffect(() => {
+
     const fetchChat = async () => {
+
       const convoRes = await axios.get(`${BACKEND_URL}/api/conversation/${conversationId}`, { withCredentials: true });
+
       const participants = convoRes.data.participants;
+
       const other = participants.find(
         (p: any) => p._id !== userData?.id
       );
@@ -56,10 +71,7 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
         setOtherUser(other);
       }
 
-      const msgRes = await axios.get(
-        `${BACKEND_URL}/api/messages/${conversationId}`,
-        { withCredentials: true }
-      );
+      const msgRes = await axios.get(`${BACKEND_URL}/api/messages/${conversationId}`, { withCredentials: true });
 
       setMessages(msgRes.data);
     };
@@ -75,20 +87,22 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
   }, [messages]);
 
   const sendMessage = async () => {
-    if (!text.trim() || !receiverId) {
-      return;
-    }
+
+    if (!text.trim() || !receiverId) return;
+
     const { data } = await axios.post(`${BACKEND_URL}/api/messages`, { conversationId, content: text }, { withCredentials: true });
-    setMessages((prev) => [...prev, data]);
-    socket.emit("send_message", {
-      ...data,
-      receiverId,
+
+    setMessages((prev) => {
+      if (prev.some((m) => m._id === data._id)) return prev;
+      return [...prev, data];
     });
+
     setText("");
   };
 
   return (
     <div className="flex flex-col h-screen">
+
       <div className="bg-white/15 px-5 py-2 flex items-center">
         <img src={otherUser?.avatar || "/default-avatar.png"} className="h-12 w-12 rounded-full object-cover border" />
         <p onClick={() => router.push(`/main/user/${otherUser?.username}`)} className="ml-3 cursor-pointer font-semibold text-white text-[1.1rem]">
@@ -99,38 +113,45 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
       <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-3">
         {messages.map((m) => {
           const isMe = m.sender._id === userData?.id;
+
           return (
             <div key={m._id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[70%] px-4 py-2 rounded-md text-sm flex flex-col ${isMe
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
-                }`}>
-                <p>{m.content}</p>
-                <span className="text-[11px] opacity-70 self-end mt-1">
-                  {formatTime(m.createdAt)}
-                </span>
+              <div
+                className={`max-w-[70%] px-4 py-2 rounded-md ${isMe
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-black"
+                  }`}>
+                <p className="whitespace-pre-wrap wrap-break-word">
+                  {m.content}
+                  <span className="ml-2 opacity-70 text-[0.6rem] relative top-0.5">
+                    {formatTime(m.createdAt)}
+                  </span>
+                </p>
               </div>
             </div>
           );
         })}
+
         <div ref={bottomRef} />
       </div>
 
       <div className="border-t px-7 pb-6 pt-4 flex gap-2 backdrop-blur-3xl">
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+
+        <input value={text} onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               sendMessage();
             }
           }}
-          className="flex-1 border px-3 py-2 rounded-md text-white"
-          placeholder="Type a message..." />
+          className="flex-1 border px-3 py-2 rounded-md text-white bg-black/10"
+          placeholder="Type a message..."
+        />
+
         <button onClick={sendMessage} className="bg-blue-500 text-white px-5 rounded-md cursor-pointer">
           Send
         </button>
+
       </div>
 
     </div>

@@ -1,6 +1,7 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conversation.model.js";
 import Notification from "../models/notification.model.js";
+import { getIO, onlineUsers } from "../socket/socket.js";
 
 export const getMessages = async (req, res) => {
   try {
@@ -20,29 +21,59 @@ export const getMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
+
     const { conversationId, content } = req.body;
+
+    if (!conversationId || !content) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
+
+    const conversation = await Conversation.findById(conversationId);
+
+    if (!conversation) {
+      return res.status(404).json({ message: "Conversation not found" });
+    }
+
     const message = await Message.create({
       conversation: conversationId,
       sender: req.user._id,
       content,
     });
+
     const populated = await message.populate(
       "sender",
       "username name avatar"
     );
-    const conversation = await Conversation.findById(conversationId);
+
     const receiverId = conversation.participants.find(
       (id) => id.toString() !== req.user._id.toString()
     );
-    if (receiverId.toString() !== req.user._id.toString()) {
+
+    if (receiverId) {
+
       await Notification.create({
         recipient: receiverId,
         sender: req.user._id,
         type: "message",
       });
+
+      const io = getIO();
+      const receiverSocket = onlineUsers.get(receiverId.toString());
+
+      if (receiverSocket) {
+        io.to(receiverSocket).emit("receive_message", populated);
+      }
+
     }
+
+    await Conversation.findByIdAndUpdate(conversationId, {
+      updatedAt: new Date(),
+    });
+
     res.json(populated);
+
   } catch (error) {
+    console.error("SEND MESSAGE ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 };

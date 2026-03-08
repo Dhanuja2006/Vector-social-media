@@ -11,7 +11,7 @@ import commentRoutes from "./src/routes/comment.routes.js";
 import notificationRoutes from "./src/routes/notification.routes.js";
 import messageRouter from "./src/routes/message.routes.js";
 import conversationRouter from "./src/routes/conversation.routes.js";
-import { Server } from "socket.io";
+import { initSocket } from "./src/socket/socket.js";
 
 const app = express();
 
@@ -48,41 +48,4 @@ const server = app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true,
-  },
-});
-
-const onlineUsers = new Map();
-
-io.on("connection", (socket) => {
-
-  socket.on("register", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
-
-  socket.on("send_message", (data) => {
-
-    const { receiverId } = data;
-
-    const receiverSocket = onlineUsers.get(receiverId);
-
-    if (receiverSocket) {
-      io.to(receiverSocket).emit("receive_message", data);
-    }
-
-  });
-
-  socket.on("disconnect", () => {
-
-    for (const [key, value] of onlineUsers.entries()) {
-      if (value === socket.id) {
-        onlineUsers.delete(key);
-      }
-    }
-
-  });
-
-});
+initSocket(server);
