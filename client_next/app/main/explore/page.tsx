@@ -17,7 +17,6 @@ type User = {
 export default function Explore() {
   const [topPosts, setTopPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<User[]>([]);
   const [searching, setSearching] = useState(false);
@@ -30,7 +29,7 @@ export default function Explore() {
   useEffect(() => {
     const fetchTopPosts = async () => {
       try {
-        const { data } = await axios.get(`${BACKEND_URL}/api/posts/top-week`, {withCredentials: true});
+        const { data } = await axios.get(`${BACKEND_URL}/api/posts/top-week`, { withCredentials: true });
         setTopPosts(data.posts);
       } catch (error: any) {
         toast.error(error.message)
@@ -51,7 +50,7 @@ export default function Explore() {
 
       try {
         setSearching(true);
-        const res = await axios.get(`${BACKEND_URL}/api/users/search?query=${query}`,{ withCredentials: true });
+        const res = await axios.get(`${BACKEND_URL}/api/users/search?query=${query}`, { withCredentials: true });
         setResults(res.data.users);
         setOpen(true);
       } catch (err) {
@@ -64,7 +63,7 @@ export default function Explore() {
     return () => clearTimeout(delay);
   }, [query]);
 
-  const handleClick = async(post: { _id: any; }) => {
+  const handleClick = async (post: { _id: any; }) => {
     router.push(`/main/post/${post._id}`)
   }
 
@@ -96,7 +95,7 @@ export default function Explore() {
         <div className="relative mt-5" ref={wrapperRef}>
           <div className="flex items-center px-2 gap-2 bg-white/30 dark:bg-black/30 rounded-full h-10">
             <Search className="h-5" />
-            <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent"/>
+            <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent" />
           </div>
 
           {open && (
@@ -114,9 +113,9 @@ export default function Explore() {
                   <div
                     key={user._id}
                     className="flex items-center gap-3 p-3 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition"
-                    onClick={() => router.push( `/main/user/${user.username}`)}>
+                    onClick={() => router.push(`/main/user/${user.username}`)}>
                     <div className="h-10 w-10 rounded-full overflow-hidden bg-black/5 dark:bg-white/5">
-                      <img src={ user.avatar || "/default-avatar.png" } alt={user.name} className="h-full w-full object-cover"/>
+                      <img src={user.avatar || "/default-avatar.png"} alt={user.name} className="h-full w-full object-cover" />
                     </div>
 
                     <div>
@@ -142,7 +141,7 @@ export default function Explore() {
                 <ExternalLink className="text-blue-500" />
                 Science and technology
               </p>
-              <img src="/science.webp" alt="" className="h-full w-full object-cover object-bottom"/>
+              <img src="/science.webp" alt="" className="h-full w-full object-cover object-bottom" />
             </div>
 
             <div className="box h-35 w-[48%] rounded-md overflow-clip relative cursor-pointer hover:shadow-md">
@@ -150,7 +149,7 @@ export default function Explore() {
                 <ExternalLink className="text-blue-500" />
                 Sports
               </p>
-              <img src="/kohli2.jpg" alt="" className="h-full w-full object-cover object-top"/>
+              <img src="/kohli2.jpg" alt="" className="h-full w-full object-cover object-top" />
             </div>
           </div>
         </div>
@@ -158,7 +157,7 @@ export default function Explore() {
         <div className="mt-5">
           <p className="font-semibold text-white">Top posts of the week</p>
 
-          <div className="flex flex-col gap-5 md:flex-row items-center justify-between mt-5">
+          <div className="flex flex-col gap-5 md:flex-row items-center mt-5">
             {loading ? (
               <p className="text-gray-300">
                 Loading top posts...
@@ -169,24 +168,34 @@ export default function Explore() {
               </p>
             ) : (
               topPosts.map((post) => (
-                <div onClick={() => handleClick(post)} key={post._id} className="box w-[90%] md:w-[32%] border rounded-md px-5 py-4 relative cursor-pointer backdrop-blur-3xl text-white hover:bg-black/2">
+                <div onClick={() => handleClick(post)} key={post._id}
+                  className="box w-[90%] md:w-[32%] h-44 border rounded-md px-5 py-4 relative cursor-pointer backdrop-blur-3xl text-white hover:bg-black/2 flex flex-col justify-between">
                   <p className="text-blue-300">
                     {post.likes.length} likes
                   </p>
+
                   <p className="absolute top-4 right-4 text-[0.9rem] text-blue-600">
                     #{post.intent}
                   </p>
-                  <p className="my-3 line-clamp-4">
+
+                  <p className="my-3 text-sm line-clamp-3 overflow-hidden">
                     {post.content}
                   </p>
-                  <p className="text-[0.9rem] w-fit hover:text-blue-500" onClick={(e) => {e.stopPropagation(); router.push( `/main/user/${post.author.username}`)}}>
-                    @{post.author.username}
-                  </p>
-                  <p className="text-gray-300 text-[0.8rem]">
-                    {new Date(
-                      post.createdAt
-                    ).toLocaleDateString("en-GB")}
-                  </p>
+
+                  <div>
+                    <p
+                      className="text-[0.9rem] w-fit hover:text-blue-500"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/main/user/${post.author.username}`);
+                      }}>
+                      @{post.author.username}
+                    </p>
+
+                    <p className="text-gray-300 text-[0.8rem]">
+                      {new Date(post.createdAt).toLocaleDateString("en-GB")}
+                    </p>
+                  </div>
                 </div>
               ))
             )}
