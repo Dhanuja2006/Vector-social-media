@@ -88,7 +88,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
 
             <div className="flex flex-col">
                 {comments.length === 0 && (
-                    <p className="text-[0.9rem] text-gray-500 py-3">
+                    <p className="text-[0.9rem] text-gray-300 text-center dark:text-gray-500 py-3">
                         No comments yet!
                     </p>
                 )}

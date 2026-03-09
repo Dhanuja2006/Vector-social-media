@@ -128,7 +128,7 @@ export default function MessagesSidebar() {
                     Suggestions
                 </p>
 
-                <div className="mt-5 flex flex-col gap-6 w-fit min-h-[75vh] max-h-[60vh] overflow-y-auto hide-scrollbar pr-1">
+                <div className="mt-5 flex flex-col gap-2 w-fit min-h-[75vh] max-h-[60vh] overflow-y-auto hide-scrollbar pr-1">
                     {loading ? (
                         <p className="text-sm opacity-50">Loading users...</p>
                     ) : query.trim() ? (
@@ -160,8 +160,8 @@ export default function MessagesSidebar() {
                         filteredUsers.map((suggestedUser) => {
                             const isFollowing = userData?.following?.includes(suggestedUser._id.toString()) ?? false;
                             return (
-                                <div key={suggestedUser._id} className="flex items-center gap-2">
-                                    <div className="h-12 w-12 rounded-full overflow-hidden">
+                                <div onClick={() => startChat(suggestedUser._id)} key={suggestedUser._id} className="flex items-center gap-2 hover:bg-black/10 cursor-pointer p-3 rounded-md">
+                                    <div className="h-10 w-10 rounded-full overflow-hidden">
                                         <img src={suggestedUser.avatar || "/default-avatar.png"} alt={suggestedUser.name} className="h-full w-full object-cover" />
                                     </div>
 

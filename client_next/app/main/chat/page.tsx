@@ -30,7 +30,7 @@ export default function ChatListPage() {
         <div className="flex w-full h-screen">
             <div className="flex-1 h-screen overflow-y-auto hide-scrollbar">
 
-            <h1 className="text-xl font-bold p-4 bg-white/15 text-white text-center md:text-left">
+            <h1 className="text-xl font-bold p-4 bg-white/15 dark:bg-black/25 text-white text-center md:text-left">
                 Your chats
             </h1>
 
