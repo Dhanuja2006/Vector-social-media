@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppContextProvider } from "@/context/AppContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("http://localhost:3000"),
   title: "Vector - Build ATS-Friendly Resumes in Minutes",
   description:
     "Create professional, ATS-optimized resumes with live preview and instant download.",
