@@ -69,7 +69,7 @@ export default function User() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="mt-5 flex flex-col">
+                            <div className="mt-5 flex flex-col gap-3">
                                 <div className="flex gap-3 items-center py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 px-3 cursor-pointer hover:text-blue-500">
                                     <ShoppingCart className="text-gray-500"/> My orders
                                 </div>

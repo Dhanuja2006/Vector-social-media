@@ -40,15 +40,14 @@ export default function ResumeAnalyzer() {
 
             <div className="relative flex z-10 max-w-7xl mx-auto px-6 py-16">
 
-                {/* HEADER */}
-
-
                 {/* GRID */}
                 <div className="flex gap-10 w-full">
 
                     {/* INPUT SIDE */}
                     <div className="space-y-6 w-full md:w-1/2">
-                        <div className="mb-14">
+
+                        {/* HEADER */}
+                        <div className="mb-14 animate-fade-in-up stagger-1">
                             <h1 className="text-5xl font-bold tracking-tight text-neutral-900">
                                 Resume <span className="text-blue-500">Intelligence</span>
                             </h1>
@@ -57,8 +56,9 @@ export default function ResumeAnalyzer() {
                                 recruiter-level insights instantly.
                             </p>
                         </div>
+
                         {/* Upload */}
-                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card">
+                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card animate-fade-in-up stagger-2">
                             <p className="text-sm text-neutral-500 mb-3">Resume</p>
 
                             <div className="border border-dashed border-neutral-300 rounded-xl p-6 text-center hover:border-blue-400 transition cursor-pointer bg-neutral-50">
@@ -81,7 +81,7 @@ export default function ResumeAnalyzer() {
                         </div>
 
                         {/* JD */}
-                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card">
+                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card animate-fade-in-up stagger-3">
                             <p className="text-sm text-neutral-500 mb-3">
                                 Job Description
                             </p>
@@ -97,15 +97,18 @@ export default function ResumeAnalyzer() {
                         {/* BUTTON */}
                         <button
                             onClick={handleSubmit}
-                            className={`w-full py-3 rounded-xl ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-medium transition shadow-md`}
+                            className={`w-full py-3 rounded-xl ${
+                                loading
+                                    ? "bg-blue-400 cursor-not-allowed"
+                                    : "bg-blue-500 hover:bg-blue-600"
+                            } text-white font-medium transition shadow-md animate-fade-in-up stagger-4`}
                         >
                             {loading ? "Analyzing..." : "Analyze Resume"}
                         </button>
-
                     </div>
 
                     {/* OUTPUT SIDE */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 animate-fade-in-up stagger-5">
 
                         {!result && (
                             <div className="h-full flex items-center justify-center text-neutral-400 text-sm border border-neutral-200 rounded-2xl bg-white shadow-card">
@@ -161,7 +164,6 @@ export default function ResumeAnalyzer() {
                                     </div>
 
                                 </div>
-
                             </div>
                         )}
 
