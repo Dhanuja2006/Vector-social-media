@@ -59,16 +59,16 @@ export default function ResumeAnalyzer() {
                     <div className="space-y-5 w-full md:w-1/2">
 
                         <div>
-                            <h1 className="text-5xl font-bold tracking-tight text-neutral-900">
+                            <h1 className="text-5xl font-bold tracking-tight text-neutral-900 animate-fade-in-up">
                                 Resume <span className="text-blue-500">Intelligence</span>
                             </h1>
-                            <p className="text-neutral-500 mt-3 max-w-xl">
+                            <p className="text-neutral-500 mt-3 max-w-xl animate-fade-in-up">
                                 Upload your resume. Paste a job description. Get brutally honest insights.
                             </p>
                         </div>
 
                         {/* Upload */}
-                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card">
+                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card animate-fade-in-up">
                             <p className="text-sm text-neutral-500 mb-3">Resume</p>
 
                             <div className="border border-dashed border-neutral-300 rounded-xl py-2 text-center hover:border-blue-400 transition cursor-pointer bg-neutral-50">
@@ -91,7 +91,7 @@ export default function ResumeAnalyzer() {
                         </div>
 
                         {/* JD */}
-                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card">
+                        <div className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-card animate-fade-in-up">
                             <p className="text-sm text-neutral-500 mb-3">
                                 Job Description
                             </p>
@@ -108,7 +108,7 @@ export default function ResumeAnalyzer() {
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className={`w-full py-3 rounded-xl ${
+                            className={`w-full py-3 rounded-xl animate-fade-in-up ${
                                 loading
                                     ? "bg-blue-400 cursor-not-allowed"
                                     : "bg-blue-500 hover:bg-blue-600"
@@ -119,7 +119,7 @@ export default function ResumeAnalyzer() {
                     </div>
 
                     {/* OUTPUT SIDE */}
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 animate-fade-in-up">
 
                         {/* 🧠 SINGLE RENDER FLOW */}
                         {loading ? (
@@ -187,7 +187,7 @@ export default function ResumeAnalyzer() {
                                 </div>
                             </div>
                         ) : result ? (
-                            <div className="space-y-5">
+                            <div className="space-y-5 animate-fade-in-up">
 
                                 {/* SCORE */}
                                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6">
