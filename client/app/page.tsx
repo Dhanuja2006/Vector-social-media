@@ -4,7 +4,6 @@ import Footer from "@/components/ui/Footer";
 import { ResumeTemplate } from "@/components/resume/ResumeTemplate";
 import { demoResumeData } from "@/utils/demoData";
 import { Download, LucideIcon, Puzzle, Target, Zap } from "lucide-react";
-import About from "@/components/Home/About";
 import Hero from "@/components/Home/Hero";
 import Features from "@/components/Home/Features";
 import Working from "@/components/Home/Working";
@@ -17,7 +16,6 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar/>
       <Hero/>
-      <About/>
       <Features/>
       <Working/>
       <Preview/>

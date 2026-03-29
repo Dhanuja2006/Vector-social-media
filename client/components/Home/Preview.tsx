@@ -14,7 +14,7 @@ export default function Preview() {
             <div className="relative z-10 flex flex-col w-full md:flex-row items-center">
 
                 {/* LEFT SIDE */}
-                <div className="w-full md:w-1/2 pl-10">
+                <div className="w-full md:w-1/2 md:pl-10">
 
                     {/* heading */}
                     <div>
@@ -72,7 +72,7 @@ export default function Preview() {
                         </div>
                     </div>
 
-                    <button className="bg-white mt-10 text-blue-500 px-6 py-3 rounded-xl font-medium flex items-center gap-2 group shadow-lg hover:bg-white/90 transition">
+                    <button className="bg-white w-full md:w-fit mt-10 text-blue-500 px-6 py-3 rounded-xl font-medium flex items-center gap-2 group shadow-lg hover:bg-white/90 transition">
                         Try this template
                         <ArrowRight className="h-4 group-hover:translate-x-1 transition" />
                     </button>
