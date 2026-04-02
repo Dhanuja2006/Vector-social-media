@@ -14,7 +14,6 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirect") || "/";
 
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
@@ -25,7 +24,7 @@ export default function Login() {
             const { data } = await axios.post(BACKEND_URL + '/api/auth/login', { email, password }, { withCredentials: true });
             if (data.success) {
                 toast.success("Logged in successfully");
-                router.push(redirect);
+                router.push('/builder');
                 return;
             } else {
                 toast.warn(data.message);
@@ -44,7 +43,7 @@ export default function Login() {
     }
 
     const handleGoogleLogin = () => {
-        window.location.href = `${BACKEND_URL}/api/auth/google?redirect=${redirect}`;
+        window.location.href = `${BACKEND_URL}/api/auth/google`;;
     };
 
     return (
